@@ -37,7 +37,7 @@ try:
         page.screenshot(path=str(OUT/'desktop.png'),full_page=True)
         page.locator('[data-tab="visual"]').click();page.locator('#recipeTransform').select_option('sign');page.locator('#applyRecipe').click()
         check('visual editor writes executable code',lambda:page.wait_for_function('() => document.querySelector("#codeEditor").value.includes("Math.sign")'))
-        page.locator('[data-tool="raise"]').click();page.locator('#terrainCanvas').click(position={'x':230,'y':180})
+        page.locator('[data-tool="raise"]').click();canvas=page.locator('#terrainCanvas');rect=canvas.bounding_box();canvas.click(position={'x':rect['width']/2,'y':rect['height']/2})
         check('drawing changes actual objective',lambda:page.wait_for_function('() => document.querySelector("#brushCount").textContent !== "0"'))
         page.locator('#clearBrush').click();page.locator('#terrainSelect').select_option('bowl')
         page.locator('[data-tab="code"]').click();page.locator('#optimizerSelect').select_option('adam')
