@@ -1,0 +1,29 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { mkdtemp, rm, readFile, readdir } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
+import { createServer } from '../server/app.mjs';
+import { CHALLENGE_CASES } from '../src/core/challenge.js';
+const payload = () => ({ consent: true, title: '実験 <script>alert(1)</script>', experiment: { config: { terrain: { preset: 'bowl', bumps: [] }, start: [2, 1], params: { lr: .1, beta: .9, beta2: .999, eps: 1e-8, wd: .01 }, maxSteps: 100, maxCalls: 1000, seed: 42 }, optimizers: [{ id: 'custom', name: 'My optimizer', code: 'function step(a){return {point:a.point};}', color: '#72d9a2' }], results: [] } });
+async function setup(t, opts = {}) { const d = await mkdtemp(path.join(tmpdir(), 'optimizer-test-')); let s = createServer({ dataDir: d, publicDir: path.resolve('public'), ...opts }); await new Promise(r => s.listen(0, '127.0.0.1', r)); t.after(async () => { await new Promise(r => s.close(r)); await rm(d, { recursive: true, force: true }); }); return { base: `http://127.0.0.1:${s.address().port}`, dir: d }; }
+const post = (base, p = payload(), extra = {}) => fetch(base + '/api/posts', { method: 'POST', headers: { 'content-type': 'application/json', ...extra }, body: JSON.stringify(p) });
+test('opt-in share round trip and secret deletion', async (t) => { const { base, dir } = await setup(t); let r = await post(base); assert.equal(r.status, 201); const a = await r.json(); assert.match(a.id, /^[a-f0-9]{32}$/); assert.ok(a.deleteKey.length >= 40); r = await fetch(base + '/api/posts/' + a.id); const b = await r.json(); assert.equal(b.title, payload().title); assert.ok(!JSON.stringify(b).includes(a.deleteKey)); assert.ok(!JSON.stringify(b).includes('deleteHash')); let disk = await readFile(path.join(dir, a.id + '.json'), 'utf8'); assert.ok(!disk.includes(a.deleteKey)); assert.equal((await fetch(base + '/api/posts/' + a.id, { method: 'DELETE', headers: { 'x-delete-key': 'wrong' } })).status, 403); assert.equal((await fetch(base + '/api/posts/' + a.id, { method: 'DELETE', headers: { 'x-delete-key': a.deleteKey } })).status, 204); assert.equal((await fetch(base + '/api/posts/' + a.id)).status, 404); });
+test('explicit consent and valid schema required', async (t) => { const { base } = await setup(t); let p = payload(); p.consent = false; assert.equal((await post(base, p)).status, 400); p = payload(); p.experiment.config.maxSteps = 1e9; assert.equal((await post(base, p)).status, 400); p = payload(); p.experiment.optimizers[0].code = 'x'.repeat(20001); assert.equal((await post(base, p)).status, 400); });
+test('cross-origin mutations blocked', async (t) => { const { base } = await setup(t); assert.equal((await post(base, payload(), { origin: 'https://attacker.invalid' })).status, 403); });
+test('body and post-rate limits enforced', async (t) => { const { base } = await setup(t, { postLimit: 2 }); assert.equal((await post(base)).status, 201); assert.equal((await post(base)).status, 201); assert.equal((await post(base)).status, 429); const other = await setup(t); let r = await fetch(other.base + '/api/posts', { method: 'POST', headers: { 'content-type': 'application/json' }, body: 'x'.repeat(1100000) }); assert.equal(r.status, 413); });
+test('listing unavailable and responses have security headers', async (t) => { const { base } = await setup(t); let r = await fetch(base + '/api/posts'); assert.equal(r.status, 404); assert.match(r.headers.get('content-security-policy'), /default-src 'self'/); assert.equal(r.headers.get('x-content-type-options'), 'nosniff'); assert.equal((await fetch(base + '/api/posts/../../.env')).status, 404); });
+test('configured public origin still rejects other origins', async (t) => { const { base } = await setup(t, { publicOrigin: 'https://lab.example' }); assert.equal((await post(base, payload(), { origin: 'https://attacker.invalid' })).status, 403); assert.equal((await post(base, payload(), { origin: 'https://lab.example' })).status, 201); });
+test('published benchmark is retained by the real HTTP API', async (t) => { const { base } = await setup(t); const p = payload(); p.experiment.benchmark = { protocol: 'suite-v1', code: p.experiment.optimizers[0].code, score: 100, baseline: 200, rows: CHALLENGE_CASES.map(({ preset, start, seed }) => ({ preset, start, seed, score: 100, baseline: 200, finalLoss: 1, calls: 20, status: 'steps' })) }; const response = await post(base, p); assert.equal(response.status, 201); const created = await response.json(); const found = await (await fetch(base + '/api/posts/' + created.id)).json(); assert.deepEqual(found.experiment.benchmark, p.experiment.benchmark); });
+test('stored posts expire and cannot exceed the configured capacity', async (t) => { const { base } = await setup(t, { maxPosts: 1 }); assert.equal((await post(base)).status, 201); assert.equal((await post(base)).status, 503); const ephemeral = await setup(t, { ttlDays: 1e-10 }); const response = await post(ephemeral.base); const created = await response.json(); await new Promise(r => setTimeout(r, 20)); assert.equal((await fetch(ephemeral.base + '/api/posts/' + created.id)).status, 404); assert.equal((await post(ephemeral.base)).status, 201); });
+
+
+test('HTTP API rejects a falsified canonical challenge definition', async (t) => {
+    const { base } = await setup(t); const p = payload();
+    p.experiment.benchmark = { protocol: 'suite-v1', code: p.experiment.optimizers[0].code, score: 100, baseline: 200,
+        rows: CHALLENGE_CASES.map(({ preset, start, seed }) => ({ preset, start, seed, score: 100, baseline: 200, finalLoss: 1, calls: 20, status: 'steps' })) };
+    p.experiment.benchmark.rows[8].start = [0, 0];
+    const response = await post(base, p);
+    assert.equal(response.status, 400);
+    assert.match((await response.json()).error, /チャレンジ/);
+});

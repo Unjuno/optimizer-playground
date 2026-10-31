@@ -1,0 +1,40 @@
+{
+  "browser": "Chromium 144.0.7559.96 built on Debian GNU/Linux 13 (trixie)",
+  "mode": "in-memory portable HTML / Web Worker; no HTTP navigation",
+  "passed": [
+    "PASS portable HTML loads a usable code editor and preset terrain",
+    "PASS no external assets, automatic upload or background simulation on load",
+    "PASS first-run flow computes beta-only comparison and overlays both previous charts without replacing code",
+    "PASS three actual Worker simulations return numeric loss and trajectories",
+    "PASS timeline scrubbing pauses replay and synchronizes inspector",
+    "PASS one-step replay and changing inspected optimizer work",
+    "PASS essential desktop experiment controls remain legible at default zoom",
+    "PASS visual recipe generates code and invalidates stale results",
+    "PASS changing the optimizer code removes the stale guided comparison",
+    "PASS visual edits can be undone without losing previous code",
+    "PASS manual code editing safely invalidates stale visual-recipe undo",
+    "PASS hand-drawn landscape changes objective and disables unsupported optimality score",
+    "PASS brush reset restores the known preset",
+    "PASS formula editor rejects unsafe syntax and applies valid expressions",
+    "PASS infinite user loop hits operation budget and does not freeze the UI",
+    "PASS nonfinite output is displayed as an error rather than a success",
+    "PASS changing optimizers clears stale inspector labels",
+    "PASS fixed nine-case challenge reproduces the same SGD baseline",
+    "PASS offline sharing is explicitly unavailable; challenge code/results are ready for hosted publication",
+    "PASS help dialog opens and closes",
+    "PASS mobile guide is accessible from the header",
+    "PASS important mobile controls have readable text and >=40px touch height",
+    "PASS first-run action remains visible and touch-sized on phones",
+    "PASS 390px layout has no horizontal page overflow",
+    "PASS long source lines scroll horizontally rather than desynchronizing line numbers",
+    "PASS guide and page layout also remain usable at 320px and 768px widths",
+    "PASS all interactions produce no uncaught browser errors or network requests",
+    "PASS failed beta trial retains comparable historical trace and clear failure reason",
+    "PASS linked spatial/temporal inspection, scientific readouts and mobile UI"
+  ],
+  "count": 29,
+  "unverified": [
+    "public HTTPS browser post/view/delete",
+    "external security audit"
+  ]
+}

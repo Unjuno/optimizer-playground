@@ -1,0 +1,23 @@
+{
+  "name": "optimizer-playground",
+  "version": "0.4.0",
+  "private": true,
+  "type": "module",
+  "description": "Browser-only optimizer experimentation, visualization and opt-in sharing.",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "start": "node server/index.mjs",
+    "dev": "npm run build && npm start",
+    "test": "node --test tests/*.test.mjs",
+    "test:e2e": "python tests/browser.py",
+    "check": "npm test && npm run build",
+    "test:browser-offline": "python tests/browser-offline.py",
+    "check:browser": "npm run check && npm run test:browser-offline && npm run test:browser-regressions && npm run test:browser-inspection",
+    "test:browser-regressions": "python tests/browser-regressions.py",
+    "test:browser-inspection": "python tests/browser-inspection.py"
+  },
+  "license": "MIT"
+}

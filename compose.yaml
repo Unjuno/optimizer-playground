@@ -1,0 +1,17 @@
+services:
+  optimizer-playground:
+    build: .
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      HOST: 0.0.0.0
+      PORT: 3000
+      DATA_DIR: /app/data
+      PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:-}
+      MAX_POSTS: ${MAX_POSTS:-1000}
+      POST_TTL_DAYS: ${POST_TTL_DAYS:-30}
+    volumes:
+      - optimizer-data:/app/data
+    restart: unless-stopped
+volumes:
+  optimizer-data:

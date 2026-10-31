@@ -1,0 +1,301 @@
+> optimizer-playground@0.4.0 test
+> node --test tests/*.test.mjs
+
+TAP version 13
+# Subtest: portable bundle keeps replacement metacharacters intact and parses as one script
+ok 1 - portable bundle keeps replacement metacharacters intact and parses as one script
+  ---
+  duration_ms: 507.038455
+  type: 'test'
+  ...
+# Subtest: worker bundle initializes without treating Acorn comment examples as exports
+ok 2 - worker bundle initializes without treating Acorn comment examples as exports
+  ---
+  duration_ms: 7.892196
+  type: 'test'
+  ...
+# Subtest: expression derivatives and precedence
+ok 3 - expression derivatives and precedence
+  ---
+  duration_ms: 1.533621
+  type: 'test'
+  ...
+# Subtest: unsafe/invalid expressions rejected
+ok 4 - unsafe/invalid expressions rejected
+  ---
+  duration_ms: 0.357841
+  type: 'test'
+  ...
+# Subtest: all preset gradients match finite differences
+ok 5 - all preset gradients match finite differences
+  ---
+  duration_ms: 0.775504
+  type: 'test'
+  ...
+# Subtest: hand-drawn Gaussian changes objective and its gradient
+ok 6 - hand-drawn Gaussian changes objective and its gradient
+  ---
+  duration_ms: 0.246273
+  type: 'test'
+  ...
+# Subtest: SGD first step and convergence
+ok 7 - SGD first step and convergence
+  ---
+  duration_ms: 9.529996
+  type: 'test'
+  ...
+# Subtest: Adam first step has correct bias correction
+ok 8 - Adam first step has correct bias correction
+  ---
+  duration_ms: 2.134241
+  type: 'test'
+  ...
+# Subtest: gradient-free arbitrary state and multiple calls supported
+ok 9 - gradient-free arbitrary state and multiple calls supported
+  ---
+  duration_ms: 2.006417
+  type: 'test'
+  ...
+# Subtest: evaluation budget, nonfinite, bounds and errors are distinct
+ok 10 - evaluation budget, nonfinite, bounds and errors are distinct
+  ---
+  duration_ms: 0.87163
+  type: 'test'
+  ...
+# Subtest: seeded random is reproducible
+ok 11 - seeded random is reproducible
+  ---
+  duration_ms: 1.655827
+  type: 'test'
+  ...
+# Subtest: visual recipe generates executable composable optimizer
+ok 12 - visual recipe generates executable composable optimizer
+  ---
+  duration_ms: 2.830554
+  type: 'test'
+  ...
+# Subtest: score is null for edited terrain, bounded otherwise
+ok 13 - score is null for edited terrain, bounded otherwise
+  ---
+  duration_ms: 5.383158
+  type: 'test'
+  ...
+# Subtest: failed runs cannot receive a successful challenge score
+ok 14 - failed runs cannot receive a successful challenge score
+  ---
+  duration_ms: 0.604485
+  type: 'test'
+  ...
+# Subtest: terrain settings must be a record rather than an array or string
+ok 15 - terrain settings must be a record rather than an array or string
+  ---
+  duration_ms: 0.159602
+  type: 'test'
+  ...
+# Subtest: incomplete or malformed terminal losses never earn a score
+ok 16 - incomplete or malformed terminal losses never earn a score
+  ---
+  duration_ms: 0.516171
+  type: 'test'
+  ...
+# Subtest: each history sample reports gradient at displayed position and the departure gradient separately
+ok 17 - each history sample reports gradient at displayed position and the departure gradient separately
+  ---
+  duration_ms: 0.666569
+  type: 'test'
+  ...
+# Subtest: CSV quotes text, preserves numbers and prevents formula injection in names
+ok 18 - CSV quotes text, preserves numbers and prevents formula injection in names
+  ---
+  duration_ms: 0.813392
+  type: 'test'
+  ...
+# Subtest: trajectory inspector resolves a near sample to the correct optimizer and step
+ok 19 - trajectory inspector resolves a near sample to the correct optimizer and step
+  ---
+  duration_ms: 2.033618
+  type: 'test'
+  ...
+# Subtest: inspector prefers focused optimizer at identical locations and rejects far clicks
+ok 20 - inspector prefers focused optimizer at identical locations and rejects far clicks
+  ---
+  duration_ms: 1.580102
+  type: 'test'
+  ...
+# Subtest: inspector skips nonfinite trajectory rows and tolerates missing histories
+ok 21 - inspector skips nonfinite trajectory rows and tolerates missing histories
+  ---
+  duration_ms: 0.347336
+  type: 'test'
+  ...
+# Subtest: time-series selection returns valid step positions and clamps outside chart
+ok 22 - time-series selection returns valid step positions and clamps outside chart
+  ---
+  duration_ms: 0.187444
+  type: 'test'
+  ...
+# Subtest: inspector can select a long line segment between recorded sample markers
+ok 23 - inspector can select a long line segment between recorded sample markers
+  ---
+  duration_ms: 0.190558
+  type: 'test'
+  ...
+# Subtest: functions, loops, matrix arrays and destructuring work
+ok 24 - functions, loops, matrix arrays and destructuring work
+  ---
+  duration_ms: 12.235601
+  type: 'test'
+  ...
+# Subtest: infinite loop exhausts interpreter fuel
+ok 25 - infinite loop exhausts interpreter fuel
+  ---
+  duration_ms: 1.105654
+  type: 'test'
+  ...
+# Subtest: browser, network, host eval, prototype escape unavailable
+ok 26 - browser, network, host eval, prototype escape unavailable
+  ---
+  duration_ms: 1.735106
+  type: 'test'
+  ...
+# Subtest: oversized arrays and recursion are stopped
+ok 27 - oversized arrays and recursion are stopped
+  ---
+  duration_ms: 0.60087
+  type: 'test'
+  ...
+# Subtest: const reassignment and unsupported syntax produce errors
+ok 28 - const reassignment and unsupported syntax produce errors
+  ---
+  duration_ms: 0.717656
+  type: 'test'
+  ...
+# Subtest: random uses provided seeded source only
+ok 29 - random uses provided seeded source only
+  ---
+  duration_ms: 0.218471
+  type: 'test'
+  ...
+# Subtest: compound assignment and updates evaluate the target exactly once before RHS
+ok 30 - compound assignment and updates evaluate the target exactly once before RHS
+  ---
+  duration_ms: 2.591383
+  type: 'test'
+  ...
+# Subtest: typeof only suppresses missing identifiers, not capability or runtime errors
+ok 31 - typeof only suppresses missing identifiers, not capability or runtime errors
+  ---
+  duration_ms: 0.453546
+  type: 'test'
+  ...
+# Subtest: large joined strings and sparse additions are bounded
+ok 32 - large joined strings and sparse additions are bounded
+  ---
+  duration_ms: 0.743776
+  type: 'test'
+  ...
+# Subtest: spread arrays stay within the documented per-array bound
+ok 33 - spread arrays stay within the documented per-array bound
+  ---
+  duration_ms: 0.895075
+  type: 'test'
+  ...
+# Subtest: async and generator functions are explicitly rejected, not silently synchronous
+ok 34 - async and generator functions are explicitly rejected, not silently synchronous
+  ---
+  duration_ms: 0.545256
+  type: 'test'
+  ...
+# Subtest: share schema preserves bounded challenge results and implementation
+ok 35 - share schema preserves bounded challenge results and implementation
+  ---
+  duration_ms: 3.238783
+  type: 'test'
+  ...
+# Subtest: share schema rejects invalid challenge protocol, count, values and code
+ok 36 - share schema rejects invalid challenge protocol, count, values and code
+  ---
+  duration_ms: 1.153185
+  type: 'test'
+  ...
+# Subtest: a claimed nine-case benchmark must use the canonical test cases and arithmetic mean
+ok 37 - a claimed nine-case benchmark must use the canonical test cases and arithmetic mean
+  ---
+  duration_ms: 1.198514
+  type: 'test'
+  ...
+# Subtest: shared benchmark must describe the same implementation as the shared experiment
+ok 38 - shared benchmark must describe the same implementation as the shared experiment
+  ---
+  duration_ms: 0.227515
+  type: 'test'
+  ...
+# Subtest: share schema preserves current-location gradients while accepting legacy rows
+ok 39 - share schema preserves current-location gradients while accepting legacy rows
+  ---
+  duration_ms: 0.97107
+  type: 'test'
+  ...
+# Subtest: opt-in share round trip and secret deletion
+ok 40 - opt-in share round trip and secret deletion
+  ---
+  duration_ms: 62.946066
+  type: 'test'
+  ...
+# Subtest: explicit consent and valid schema required
+ok 41 - explicit consent and valid schema required
+  ---
+  duration_ms: 13.898999
+  type: 'test'
+  ...
+# Subtest: cross-origin mutations blocked
+ok 42 - cross-origin mutations blocked
+  ---
+  duration_ms: 6.194877
+  type: 'test'
+  ...
+# Subtest: body and post-rate limits enforced
+ok 43 - body and post-rate limits enforced
+  ---
+  duration_ms: 38.461879
+  type: 'test'
+  ...
+# Subtest: listing unavailable and responses have security headers
+ok 44 - listing unavailable and responses have security headers
+  ---
+  duration_ms: 7.041628
+  type: 'test'
+  ...
+# Subtest: configured public origin still rejects other origins
+ok 45 - configured public origin still rejects other origins
+  ---
+  duration_ms: 9.805423
+  type: 'test'
+  ...
+# Subtest: published benchmark is retained by the real HTTP API
+ok 46 - published benchmark is retained by the real HTTP API
+  ---
+  duration_ms: 13.156134
+  type: 'test'
+  ...
+# Subtest: stored posts expire and cannot exceed the configured capacity
+ok 47 - stored posts expire and cannot exceed the configured capacity
+  ---
+  duration_ms: 60.941452
+  type: 'test'
+  ...
+# Subtest: HTTP API rejects a falsified canonical challenge definition
+ok 48 - HTTP API rejects a falsified canonical challenge definition
+  ---
+  duration_ms: 3.784549
+  type: 'test'
+  ...
+1..48
+# tests 48
+# suites 0
+# pass 48
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 596.209882
